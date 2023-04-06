@@ -27,7 +27,7 @@ export default async function handle(req, res) {
 
     //   // The following query uses upsert to update a User record with a specific email address,
     //   // or create that User record if it does not exist
-    await prisma.User.upsert({
+    await prisma.user.upsert({
       where: {
         email: email
       },
@@ -41,7 +41,7 @@ export default async function handle(req, res) {
     });
 
     // // We then create/update a new oreder  information
-    const result = await prisma.Order.create({
+    const result = await prisma.order.create({
     data:{
       orderTotal: amount,
       user: { connect: { email: email } },

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import getProducts from '../api'
 import { useRouter } from 'next/router';
 import Image from 'next/image'

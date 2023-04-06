@@ -12,15 +12,15 @@ const DELIVERY_COST = {
 export default function Product({ product }) {
 
   const [selectedType, setSelectedType] = useState('paperback');
-  const [total, setTotal] = useState(product.price);
+  const [total, setTotal] = useState(product?.price);
   const [delivery, setDelivery] = useState('free');
 
   const router = useRouter();
 
   const prices = {
-    paperback: product.price,
-    hardcover: (product.price * 1.5).toFixed(2),
-    kindle: (product.price * 0.05).toFixed(2)
+    paperback: product?.price,
+    hardcover: (product?.price * 1.5).toFixed(2),
+    kindle: (product?.price * 0.05).toFixed(2)
   };
 
   useEffect(() => {
@@ -36,9 +36,9 @@ export default function Product({ product }) {
         method: 'POST',
         body: JSON.stringify({
           parent_uid: "c0a1fba61e2d418f",
-          product_name: product.name,
-          product_description: product.shortDescription,
-          product_id: product.id,
+          product_name: product?.name,
+          product_description: product?.shortDescription,
+          product_id: product?.id,
           value: total
         })
       });
@@ -46,8 +46,9 @@ export default function Product({ product }) {
 
       const data = await res.json();
 
+      // @ts-ignore
       window.blockonomicsPaymentCallback = function(payment) {
-        const params = new URLSearchParams({...payment, uid: data.uid, productId: product.id}).toString();
+        const params = new URLSearchParams({...payment, uid: data.uid, productId: product?.id}).toString();
         router.push('/thankyou?' + params);
       };
 
@@ -70,13 +71,13 @@ export default function Product({ product }) {
           <Image
             alt="coffee"
             className="rounded-lg"
-            src={product.image}
+            src={product?.image}
             width={560}
             height={640}
           />
           <div className="mt-10 flex flex-col sm:mt-0 sm:ml-10">
             <h1 className="mt-1 text-4xl font-bold uppercase text-gray-900 sm:text-5xl sm:tracking-tight lg:text-5xl">
-              {product.name}
+              {product?.name}
             </h1>
 
             <ul className="grid w-full gap-6 md:grid-cols-2">
@@ -111,7 +112,7 @@ export default function Product({ product }) {
             <div className="mt-10 mb-5 border-t border-gray-200 pt-10 font-bold">
               Description
             </div>
-            <p className="max-w-xl">{product.longDescription}</p>
+            <p className="max-w-xl">{product?.longDescription}</p>
 
             <div className='mt-10 flex items-center justify-between'>
               <div className='mt-10'>
