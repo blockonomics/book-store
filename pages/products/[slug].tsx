@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import getProducts from '../../api'
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const DELIVERY_COST = {
   free: 0,
@@ -14,6 +15,8 @@ export default function Product({ product }) {
   const [total, setTotal] = useState(product.price);
   const [delivery, setDelivery] = useState('free');
 
+  const router = useRouter();
+
   const prices = {
     paperback: product.price,
     hardcover: (product.price * 1.5).toFixed(2),
@@ -22,9 +25,9 @@ export default function Product({ product }) {
 
   useEffect(() => {
     const total = Number(prices[selectedType]) + Number(DELIVERY_COST[delivery]);
-    
+
     setTotal(Number(total).toFixed(2));
-    console.log(Number(total));
+
   }, [selectedType, delivery]);
 
   const buyProduct = async () => {
@@ -35,17 +38,26 @@ export default function Product({ product }) {
           parent_uid: "c0a1fba61e2d418f",
           product_name: product.name,
           product_description: product.shortDescription,
+          product_id: product.id,
           value: total
         })
       });
 
+
       const data = await res.json();
+
+      window.blockonomicsPaymentCallback = function(payment) {
+        const params = new URLSearchParams({...payment, uid: data.uid, productId: product.id}).toString();
+        router.push('/thankyou?' + params);
+      };
+
       // @ts-ignore
       Blockonomics.widget({
         msg_area: 'payment_area',
         uid: data.uid,
         email: 'customer@email.com'
       });
+
     } catch (e) {
       console.log(e);
     }
@@ -69,33 +81,33 @@ export default function Product({ product }) {
 
             <ul className="grid w-full gap-6 md:grid-cols-2">
               <li>
-                  <input type="radio" id="paperback" name="type" value="paperback" className="hidden peer" required checked={selectedType === 'paperback'} onChange={() => setSelectedType('paperback')} />
-                  <label htmlFor="paperback" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
-                      <div className="block">
-                          <div className="w-full text-lg font-semibold">Paperback</div>
-                          <div className="w-full">${prices.paperback}</div>
-                      </div>
-                  </label>
+                <input type="radio" id="paperback" name="type" value="paperback" className="hidden peer" required checked={selectedType === 'paperback'} onChange={() => setSelectedType('paperback')} />
+                <label htmlFor="paperback" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">Paperback</div>
+                    <div className="w-full">${prices.paperback}</div>
+                  </div>
+                </label>
               </li>
               <li>
-                  <input type="radio" id="hardcover" name="type" value="hardcover" className="hidden peer" checked={selectedType === 'hardcover'} onChange={() => setSelectedType('hardcover')} />
-                  <label htmlFor="hardcover" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
-                      <div className="block">
-                          <div className="w-full text-lg font-semibold">Hardcover</div>
-                          <div className="w-full">${prices.hardcover}</div>
-                      </div>
-                  </label>
+                <input type="radio" id="hardcover" name="type" value="hardcover" className="hidden peer" checked={selectedType === 'hardcover'} onChange={() => setSelectedType('hardcover')} />
+                <label htmlFor="hardcover" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">Hardcover</div>
+                    <div className="w-full">${prices.hardcover}</div>
+                  </div>
+                </label>
               </li>
-             < li>
-                  <input type="radio" id="kindle" name="type" value="kindle" className="hidden peer" checked={selectedType === 'kindle'} onChange={() => setSelectedType('kindle')} />
-                  <label htmlFor="kindle" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
-                      <div className="block">
-                          <div className="w-full text-lg font-semibold">kindle</div>
-                          <div className="w-full">${prices.kindle}</div>
-                      </div>
-                  </label>
+              < li>
+                <input type="radio" id="kindle" name="type" value="kindle" className="hidden peer" checked={selectedType === 'kindle'} onChange={() => setSelectedType('kindle')} />
+                <label htmlFor="kindle" className="inline-flex items-center w-full text-gray-500 bg-white border border-gray-200 cursor-pointer dark:hover:text-gray-600 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-gray-600 dark:text-gray-400 justify-center text-center">
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">kindle</div>
+                    <div className="w-full">${prices.kindle}</div>
+                  </div>
+                </label>
               </li>
-          </ul>
+            </ul>
             <div className="mt-10 mb-5 border-t border-gray-200 pt-10 font-bold">
               Description
             </div>
@@ -112,39 +124,39 @@ export default function Product({ product }) {
                     <li>
                       <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <div className="flex items-center h-5">
-                            <input id="helper-radio-4" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'free'} onChange={() => setDelivery('free')} />
+                          <input id="helper-radio-4" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'free'} onChange={() => setDelivery('free')} />
                         </div>
                         <div className="ml-2 text-sm">
-                            <label htmlFor="helper-radio-4" className="font-medium text-gray-900 dark:text-gray-300">
-                              <div>Free</div>
-                              <p id="helper-radio-text-4" className="text-xs font-normal text-gray-500 dark:text-gray-300">5 - 7 days - $0.00</p>
-                            </label>
+                          <label htmlFor="helper-radio-4" className="font-medium text-gray-900 dark:text-gray-300">
+                            <div>Free</div>
+                            <p id="helper-radio-text-4" className="text-xs font-normal text-gray-500 dark:text-gray-300">5 - 7 days - $0.00</p>
+                          </label>
                         </div>
                       </div>
                     </li>
                     <li>
                       <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <div className="flex items-center h-5">
-                            <input id="helper-radio-5" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'nextDay'} onChange={() => setDelivery('nextDay')} />
+                          <input id="helper-radio-5" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'nextDay'} onChange={() => setDelivery('nextDay')} />
                         </div>
                         <div className="ml-2 text-sm">
-                            <label htmlFor="helper-radio-5" className="font-medium text-gray-900 dark:text-gray-300">
-                              <div>Next Day Delivery</div>
-                              <p id="helper-radio-text-5" className="text-xs font-normal text-gray-500 dark:text-gray-300">Next day - $8.00</p>
-                            </label>
+                          <label htmlFor="helper-radio-5" className="font-medium text-gray-900 dark:text-gray-300">
+                            <div>Next Day Delivery</div>
+                            <p id="helper-radio-text-5" className="text-xs font-normal text-gray-500 dark:text-gray-300">Next day - $8.00</p>
+                          </label>
                         </div>
                       </div>
                     </li>
                     <li>
                       <div className="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <div className="flex items-center h-5">
-                            <input id="helper-radio-6" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'sameDay'} onChange={() => setDelivery('sameDay')} />
+                          <input id="helper-radio-6" name="helper-radio" type="radio" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked={delivery === 'sameDay'} onChange={() => setDelivery('sameDay')} />
                         </div>
                         <div className="ml-2 text-sm">
-                            <label htmlFor="helper-radio-6" className="font-medium text-gray-900 dark:text-gray-300">
-                              <div>Within 8 hours</div>
-                              <p id="helper-radio-text-6" className="text-xs font-normal text-gray-500 dark:text-gray-300">within 8 hours - $10.00</p>
-                            </label>
+                          <label htmlFor="helper-radio-6" className="font-medium text-gray-900 dark:text-gray-300">
+                            <div>Within 8 hours</div>
+                            <p id="helper-radio-text-6" className="text-xs font-normal text-gray-500 dark:text-gray-300">within 8 hours - $10.00</p>
+                          </label>
                         </div>
                       </div>
                     </li>
@@ -153,7 +165,7 @@ export default function Product({ product }) {
               </div>
 
               <div>
-              <button
+                <button
                   type="button"
                   className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2 mb-2"
                   onClick={buyProduct}
@@ -191,10 +203,11 @@ export async function getStaticProps({ params }) {
 
 export function getStaticPaths() {
   const books = getProducts()
-  let fullPaths = books.map(b => ({params: { slug: b.id }}));
+  let fullPaths = books.map(b => ({ params: { slug: b.id } }));
 
   return {
     paths: fullPaths,
     fallback: true,
   }
 }
+
