@@ -1,23 +1,14 @@
 import { useRef } from 'react'
 import Header from '../components/Header'
 import ProductCard from '../components/ProductCard'
-import getProducts from '../sfcc.js'
+import getProducts from '../api'
 
 export default function Gallery({ data }) {
   let coffeeRef = useRef<HTMLParagraphElement>()
 
-  const scrollHandler = (e) => {
-    e.preventDefault()
-    // @ts-ignore
-    coffeeRef.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }
-
   return (
     <>
-      <Header scrollHandler={scrollHandler} />
+      <Header />
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="sm:py-15 mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -41,7 +32,7 @@ export default function Gallery({ data }) {
 }
 
 export async function getStaticProps() {
-  const searchResults = await getProducts('coffee')
+  const searchResults = await getProducts()
 
   return {
     props: {
