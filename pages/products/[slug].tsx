@@ -35,7 +35,7 @@ export default function Product({ product }) {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         body: JSON.stringify({
-          parent_uid: "c0a1fba61e2d418f",
+          parent_uid: process.env.BLOCKONOMIC_PARENT_UID,
           product_name: product?.name,
           product_description: product?.shortDescription,
           product_id: product?.id,

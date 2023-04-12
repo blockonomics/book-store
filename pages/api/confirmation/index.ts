@@ -13,7 +13,7 @@ export default async function handle(req, res) {
 
   const d = await fetch(`https://www.blockonomics.co/api/merchant_order/${uuid}`, {
     headers: {
-      'Authorization': 'Bearer JxRcrZ9RiIPASEAa1upPFeyvRXkgcz9H7mbis7Ybq2s'
+      'Authorization': 'Bearer ' + process.env.BLOCKONOMIC_API_KEY
     }
   });
  
