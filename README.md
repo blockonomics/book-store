@@ -1,31 +1,48 @@
-# Example Next.js app with Salesforce Commerce Cloud
+# Checkout API Bitcoin Payments in Next JS- Blockonomics
+This demo uses the Checkout API provided by Blockonomics to receive Bitcoin payments. It can be easily integrated with your online store. The video tutorial for this demo can be found [here](https://www.youtube.com/).
 
-This example shows how to create a headless ecommerce application using Next.js, [Salesforce commerce cloud](https://www.salesforce.com/products/commerce-cloud/overview/), and [Tailwind](https://tailwindcss.com).
 
-## Deploy your own
+## Installing Guide
+<details>
+<summary>Installing dependencies </summary>
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or view the demo [here](https://salesforce-cloud-commerce.vercel.app/)
+  `npm install`
+  
+  This should install all the dependencies needed.
+</details>
+  
+  <details>
+<summary>Setting up Environment Configurations</summary>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-sfcc&project-name=with-sfcc&repository-name=with-sfcc&env=SFDC_CLIENT_ID,SFDC_SECRET,SFDC_ORGANIZATIONID,SFDC_SHORTCODE,SFDC_SITEID&envDescription=API%20Keys%20from%20SFCC%20needed%20to%20run%20this%20application.)
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example::
-
-```bash
- npx create-next-app --example with-sfcc nextjs-sfcc-app
+Open the `.env` file and replace the dummy connection URL with the connection URL of your PostgreSQL database. For example, if your database is hosted on Supabase, the URL might look as follows:
+  
 ```
+  # .env
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.ObubJTKrJYcPSkdsWqms.supabase.co:5432/postgres"
+  ```
+</details>
 
-```bash
-yarn create next-app --example with-sfcc nextjs-sfcc-app
+<details>
+<summary>Sync your database schema to Prisma</summary>
+
+`npx prisma db push`
+  
+You should see the following output:
+
 ```
+  Environment variables loaded from /Users/nikolasburk/Desktop/nextjs-guide/blogr-starter/.env 
+Prisma schema loaded from prisma/schema.prisma
 
-```bash
-pnpm create next-app --example with-sfcc nextjs-sfcc-app
+🚀  Your database is now in sync with your schema. Done in 2.10s
 ```
+  
+</details>
 
-## References
 
-- SDK: https://github.com/SalesforceCommerceCloud/commerce-sdk
+<details>
+<summary>Start the server</summary>
+
+  `npm run dev`
+  
+  This will start the application on your localhost.
+</details>
