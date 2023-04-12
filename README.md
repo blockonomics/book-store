@@ -19,7 +19,19 @@ Open the `.env` file and replace the dummy connection URL with the connection UR
 ```
   # .env
 DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.ObubJTKrJYcPSkdsWqms.supabase.co:5432/postgres"
+ 
   ```
+Get the API key from the Blockonomic>Merchant site inside the store tab and replace the dummy API key with that api
+```
+  # .env
+BLOCKONOMIC_API_KEY=[API_KEY]
+  ```
+ Get the product UID  from the Blockonomic>Merchant>Paymentlink/Button site inside that product tab after creating the product you will get the uid and replace the dummy parent uid  with that id
+  ```
+ # .env
+BLOCKONOMIC_PARENT_UID=[PARENT_UID]
+  ```
+  
 </details>
 
 <details>
