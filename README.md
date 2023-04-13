@@ -23,16 +23,16 @@ For example, if your database is hosted on [Supabase](https://supabase.com/), th
 DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.ObubJTKrJYcPSkdsWqms.supabase.co:5432/postgres"
 ```
 
--  Make sure you have your Blockonomics API Key handy. To get one for free, [create your account](https://www.blockonomics.co/register#) and go to the `STORE` tab on [merchant page](https://www.blockonomics.co/merchants). Now place your api key to the `BLOCKONOMIC_API_KEY` variable in `.env` file.
+-  Make sure you have your Blockonomics API Key handy. To get one for free, [create your account](https://www.blockonomics.co/register#) and go to the `STORE` tab on [merchant page](https://www.blockonomics.co/merchants). Now place your api key to the `BLOCKONOMICS_API_KEY` variable in `.env` file.
 
 ```
-  BLOCKONOMIC_API_KEY=[API_KEY]
+  BLOCKONOMICS_API_KEY=[API_KEY]
 ```
 
- - Create your [Blockonomics payment button](https://www.youtube.com/watch?v=1sE2r5tDkNY). Get the button code and assign it to the `BLOCKONOMIC_PARENT_UID` variable in `.env` file as shown below.
+ - Create your [Blockonomics payment button](https://www.youtube.com/watch?v=1sE2r5tDkNY). Get the button code and assign it to the `BLOCKONOMICS_PARENT_UID` variable in `.env` file as shown below.
 
 ```
-  BLOCKONOMIC_PARENT_UID=[PARENT_UID]
+  BLOCKONOMICS_PARENT_UID=[PARENT_UID]
 ```
 
 - Remember to save the changes.
