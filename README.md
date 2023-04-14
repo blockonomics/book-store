@@ -1,5 +1,5 @@
 # Blockonomics Checkout API Bitcoin Payments demo in Next JS
-This demo uses the Checkout API provided by Blockonomics to receive Bitcoin payments. It can be easily integrated with your online store. The video tutorial for this demo can be found [here](https://www.youtube.com/watch?v=CstYDj09-ts).
+This demo uses the [Checkout API](https://www.blockonomics.co/views/api.html#checkouts) provided by Blockonomics to receive Bitcoin payments. It can be easily integrated with your online store. The video tutorial for this demo can be found [here](https://www.youtube.com/watch?v=CstYDj09-ts). 
 
 
 ## Installing Guide
